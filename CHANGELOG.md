@@ -1,5 +1,11 @@
 # @changesets/action
 
+## 1.4.15
+
+### Patch Changes
+
+- Adding logging
+
 ## 1.4.14
 
 ### Patch Changes

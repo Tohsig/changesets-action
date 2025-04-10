@@ -320,6 +320,7 @@ export async function runVersion({
   branch,
 }: VersionOptions): Promise<RunVersionResult> {
   const baseUrl = core.getInput("baseUrl");
+  core.info(`runVersion is using ${baseUrl}`);
   const octokit = setupOctokit(githubToken, baseUrl);
 
   let repo = `${github.context.repo.owner}/${github.context.repo.repo}`;
