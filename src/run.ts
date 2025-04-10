@@ -404,14 +404,25 @@ export async function runVersion({
     );
 
     core.info(JSON.stringify(github.context.repo));
+    const { data: newPullRequest } = await octokit.request(
+      `POST /repos/${github.context.repo.owner}/${github.context.repo.repo}/pulls`,
+      {
+        base: branch,
+        head: versionBranch,
+        title: finalPrTitle,
+        body: prBody,
+      },
+    );
 
-    const { data: newPullRequest } = await octokit.rest.pulls.create({
-      base: branch,
-      head: versionBranch,
-      title: finalPrTitle,
-      body: prBody,
-      ...github.context.repo,
-    });
+    core.info("success!!");
+    core.info(JSON.stringify(newPullRequest));
+    // const { data: newPullRequest } = await octokit.rest.pulls.create({
+    //   base: branch,
+    //   head: versionBranch,
+    //   title: finalPrTitle,
+    //   body: prBody,
+    //   ...github.context.repo,
+    // });
 
     return {
       pullRequestNumber: newPullRequest.number,
