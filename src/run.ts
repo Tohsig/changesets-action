@@ -402,6 +402,9 @@ export async function runVersion({
     core.info(
       `creating pull request: ${branch} ${versionBranch} ${finalPrTitle} ${prBody}`,
     );
+
+    core.info(JSON.stringify(github.context.repo));
+
     const { data: newPullRequest } = await octokit.rest.pulls.create({
       base: branch,
       head: versionBranch,
