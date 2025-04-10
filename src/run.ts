@@ -415,7 +415,9 @@ export async function runVersion({
     //   },
     // );
 
+    core.info("Hitting try/catch");
     try {
+      core.info("Inside try");
       const { data: newPullRequest } = await octokit.rest.pulls.create({
         base: branch,
         head: versionBranch,
@@ -423,17 +425,18 @@ export async function runVersion({
         body: prBody,
         ...github.context.repo,
       });
+
+      return {
+        pullRequestNumber: newPullRequest.number,
+      };
     } catch (error) {
-      core.debug(error.message);
-      core.debug(error.status);
-      core.debug(JSON.stringify(error.request));
-      core.debug(JSON.stringify(error.response));
+      core.info("inside catch");
+      core.info(error.message);
+      core.info(error.status);
+      core.info(JSON.stringify(error.request));
+      core.info(JSON.stringify(error.response));
       throw error;
     }
-
-    return {
-      pullRequestNumber: newPullRequest.number,
-    };
   } else {
     const [pullRequest] = existingPullRequests.data;
 
