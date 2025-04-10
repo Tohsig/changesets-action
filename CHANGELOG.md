@@ -1,5 +1,11 @@
 # @changesets/action
 
+## 1.4.13
+
+### Patch Changes
+
+- Drop minify
+
 ## 1.4.12
 
 ### Patch Changes
