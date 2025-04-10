@@ -1,6 +1,6 @@
 {
   "name": "@changesets/action",
-  "version": "1.4.19",
+  "version": "1.4.21",
   "main": "dist/index.js",
   "license": "MIT",
   "devDependencies": {

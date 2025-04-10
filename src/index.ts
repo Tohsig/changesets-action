@@ -7,7 +7,17 @@ import { runPublish, runVersion } from "./run";
 const getOptionalInput = (name: string) => core.getInput(name) || undefined;
 
 (async () => {
-  let githubToken = process.env.GITHUB_TOKEN;
+  let githubToken = process.env.GITHUB_TOKEN2;
+  const NPM_TOKEN = process.env.NPM_TOKEN;
+  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+  core.info(
+    `NPM: ${NPM_TOKEN?.slice(0, 4)}, Github: ${GITHUB_TOKEN?.slice(
+      0,
+      4,
+    )}, Github2: ${githubToken?.slice(0, 4)}`,
+  );
+
   core.info("Starting action");
   if (!githubToken) {
     core.setFailed("Please add the GITHUB_TOKEN to the changesets action");
