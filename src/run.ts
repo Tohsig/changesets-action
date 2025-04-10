@@ -399,7 +399,9 @@ export async function runVersion({
   });
 
   if (existingPullRequests.data.length === 0) {
-    core.info("creating pull request");
+    core.info(
+      `creating pull request: ${branch} ${versionBranch} ${finalPrTitle} ${prBody}`,
+    );
     const { data: newPullRequest } = await octokit.rest.pulls.create({
       base: branch,
       head: versionBranch,
