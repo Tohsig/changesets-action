@@ -1,5 +1,11 @@
 # @changesets/action
 
+## 1.4.11
+
+### Patch Changes
+
+- [`8be6fe9`](https://github.com/changesets/action/commit/8be6fe9f0751d7187821a7b6710f1208bb68d863) - Add baseUrl input to action
+
 ## 1.4.10
 
 ### Patch Changes
