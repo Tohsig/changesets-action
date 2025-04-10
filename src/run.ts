@@ -430,6 +430,8 @@ export async function runVersion({
       // });
 
       const { apiUrl, repo } = github.context;
+      core.info(`${githubToken.length}`);
+      core.info(apiUrl);
       const response = await fetch(
         `${apiUrl}/repos/${repo.owner}/${repo.repo}/pulls`,
         {
