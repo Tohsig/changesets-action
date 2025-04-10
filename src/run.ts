@@ -419,6 +419,9 @@ export async function runVersion({
     try {
       core.info("Inside try");
       const { data: newPullRequest } = await octokit.rest.pulls.create({
+        headers: {
+          accept: "application/json",
+        },
         base: branch,
         head: versionBranch,
         title: finalPrTitle,
