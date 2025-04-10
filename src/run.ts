@@ -24,13 +24,14 @@ import { throttling } from "@octokit/plugin-throttling";
 // To avoid that, we ensure to cap the message to 60k chars.
 const MAX_CHARACTERS_PER_MESSAGE = 60000;
 
-const setupOctokit = (githubToken: string) => {
+const setupOctokit = (githubToken: string, baseUrl: string) => {
   return new (GitHub.plugin(throttling))(
     getOctokitOptions(githubToken, {
+      baseUrl,
       throttle: {
         onRateLimit: (retryAfter, options: any, octokit, retryCount) => {
           core.warning(
-            `Request quota exhausted for request ${options.method} ${options.url}`
+            `Request quota exhausted for request ${options.method} ${options.url}`,
           );
 
           if (retryCount <= 2) {
@@ -120,7 +121,8 @@ export async function runPublish({
   createGithubReleases,
   cwd = process.cwd(),
 }: PublishOptions): Promise<PublishResult> {
-  const octokit = setupOctokit(githubToken);
+  const baseUrl = core.getInput("baseUrl");
+  const octokit = setupOctokit(githubToken, baseUrl);
 
   let [publishCommand, ...publishArgs] = script.split(/\s+/);
 
@@ -316,7 +318,8 @@ export async function runVersion({
   prBodyMaxCharacters = MAX_CHARACTERS_PER_MESSAGE,
   branch,
 }: VersionOptions): Promise<RunVersionResult> {
-  const octokit = setupOctokit(githubToken);
+  const baseUrl = core.getInput("baseUrl");
+  const octokit = setupOctokit(githubToken, baseUrl);
 
   let repo = `${github.context.repo.owner}/${github.context.repo.repo}`;
   branch = branch ?? github.context.ref.replace("refs/heads/", "");
