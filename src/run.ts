@@ -430,25 +430,26 @@ export async function runVersion({
       // });
 
       const { apiUrl, repo } = github.context;
-      core.info(`${githubToken.length}`);
+      const body = {
+        base: branch,
+        head: versionBranch,
+        title: finalPrTitle,
+        body: prBody,
+      };
+
+      core.info(`Token info: ${githubToken.slice(0, 5)}...`);
       core.info(apiUrl);
+      core.info(JSON.stringify(body));
       const response = await fetch(
         `${apiUrl}/repos/${repo.owner}/${repo.repo}/pulls`,
         {
           method: "POST",
           headers: {
             accept: "application/json",
-            "user-agent":
-              "octokit-core.js/4.2.0 Node.js/20.19.0 (linux; arm64)",
             "Content-Type": "application/json; charset=utf-8",
             Authorization: `token ${githubToken}`,
           },
-          body: JSON.stringify({
-            base: branch,
-            head: versionBranch,
-            title: finalPrTitle,
-            body: prBody,
-          }),
+          body: JSON.stringify(body),
         },
       );
 
