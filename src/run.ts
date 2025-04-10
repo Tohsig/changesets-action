@@ -1,22 +1,22 @@
-import { exec, getExecOutput } from "@actions/exec";
-import { GitHub, getOctokitOptions } from "@actions/github/lib/utils";
-import * as github from "@actions/github";
 import * as core from "@actions/core";
-import fs from "fs-extra";
-import { getPackages, Package } from "@manypkg/get-packages";
-import path from "path";
-import * as semver from "semver";
+import { exec, getExecOutput } from "@actions/exec";
+import * as github from "@actions/github";
+import { GitHub, getOctokitOptions } from "@actions/github/lib/utils";
 import { PreState } from "@changesets/types";
-import {
-  getChangelogEntry,
-  getChangedPackages,
-  sortTheThings,
-  getVersionsByDirectory,
-} from "./utils";
+import { Package, getPackages } from "@manypkg/get-packages";
+import { throttling } from "@octokit/plugin-throttling";
+import fs from "fs-extra";
+import path from "path";
+import resolveFrom from "resolve-from";
+import * as semver from "semver";
 import * as gitUtils from "./gitUtils";
 import readChangesetState from "./readChangesetState";
-import resolveFrom from "resolve-from";
-import { throttling } from "@octokit/plugin-throttling";
+import {
+  getChangedPackages,
+  getChangelogEntry,
+  getVersionsByDirectory,
+  sortTheThings,
+} from "./utils";
 
 // GitHub Issues/PRs messages have a max size limit on the
 // message body payload.
@@ -25,7 +25,7 @@ import { throttling } from "@octokit/plugin-throttling";
 const MAX_CHARACTERS_PER_MESSAGE = 60000;
 
 const setupOctokit = (githubToken: string, baseUrl: string) => {
-  console.log(`Creating OctoKit instance`, baseUrl);
+  core.info(`Creating OctoKit instance: ${baseUrl}`);
   return new (GitHub.plugin(throttling))(
     getOctokitOptions(githubToken, {
       baseUrl,

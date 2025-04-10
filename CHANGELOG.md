@@ -1,5 +1,11 @@
 # @changesets/action
 
+## 1.4.14
+
+### Patch Changes
+
+- Fixing info logs
+
 ## 1.4.13
 
 ### Patch Changes

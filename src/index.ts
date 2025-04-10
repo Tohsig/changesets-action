@@ -1,14 +1,14 @@
 import * as core from "@actions/core";
 import fs from "fs-extra";
 import * as gitUtils from "./gitUtils";
-import { runPublish, runVersion } from "./run";
 import readChangesetState from "./readChangesetState";
+import { runPublish, runVersion } from "./run";
 
 const getOptionalInput = (name: string) => core.getInput(name) || undefined;
 
 (async () => {
   let githubToken = process.env.GITHUB_TOKEN;
-  console.log(`Action starting`);
+  core.info("Starting action");
   if (!githubToken) {
     core.setFailed("Please add the GITHUB_TOKEN to the changesets action");
     return;
