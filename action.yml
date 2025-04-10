@@ -34,7 +34,7 @@ inputs:
   baseUrl:
     description: Sets the URL that will be used for all Github API requests. Defaults to `https://github.com/api/v3`.
     required: false
-    default: https://github.acme-inc.com/api/v3
+    default: https://github.com/api/v3
 outputs:
   published:
     description: A boolean value to indicate whether a publishing is happened or not
