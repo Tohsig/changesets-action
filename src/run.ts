@@ -418,16 +418,41 @@ export async function runVersion({
     core.info("Hitting try/catch");
     try {
       core.info("Inside try");
-      const { data: newPullRequest } = await octokit.rest.pulls.create({
-        headers: {
-          accept: "application/json",
+      // const { data: newPullRequest } = await octokit.rest.pulls.create({
+      //   headers: {
+      //     accept: "application/json",
+      //   },
+      //   base: branch,
+      //   head: versionBranch,
+      //   title: finalPrTitle,
+      //   body: prBody,
+      //   ...github.context.repo,
+      // });
+
+      const { apiUrl, repo } = github.context;
+      const response = await fetch(
+        `${apiUrl}/repos/${repo.owner}/${repo.repo}/pulls`,
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "user-agent":
+              "octokit-core.js/4.2.0 Node.js/20.19.0 (linux; arm64)",
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: `token ${githubToken}`,
+          },
+          body: JSON.stringify({
+            base: branch,
+            head: versionBranch,
+            title: finalPrTitle,
+            body: prBody,
+          }),
         },
-        base: branch,
-        head: versionBranch,
-        title: finalPrTitle,
-        body: prBody,
-        ...github.context.repo,
-      });
+      );
+
+      const newPullRequest = await response.json();
+      core.info("Request succeeded!");
+      core.info(JSON.stringify(newPullRequest));
 
       return {
         pullRequestNumber: newPullRequest.number,
